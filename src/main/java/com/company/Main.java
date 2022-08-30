@@ -1,7 +1,9 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -27,8 +29,34 @@ public class Main {
     public static void main(String[] args) {
         //Update this
 
-        for (String[] customer : customerData) {
-            System.out.println("Entry:" + customer);
+        List<Customer> newCustomerData = new ArrayList<Customer>();
+
+        for (String[] record : customerData)
+        {
+            int id = Integer.parseInt(record[0]);
+            String name = record[1];
+            int charge = Integer.parseInt(record[2]);
+            String date = record[3];
+
+            AccountRecord item = new AccountRecord();
+            item.setChargeDate(date);
+            item.setCharge(charge);
+            Customer company = null;
+
+            for(Customer c : newCustomerData )
+            {
+                if (c.getId() == id) {
+                    company = c;
+                    break;
+                }
+            }
+            if (company == null) {
+                company = new Customer();
+                company.setId(id);
+                company.setName(name);
+                newCustomerData.add(company);
+            }
+            company.getCharges().add(item);
         }
 
         System.out.println("Positive accounts:");
